@@ -1,0 +1,39 @@
+<h1> All Playlists </h1>
+<div class="search">
+    <%= form_tag playlists_path, method: :get do %>
+        <%= text_field_tag :query, params[:query], placeholder: "Search for playlist" %>
+        <%= submit_tag "Search" %>
+    <% end %>
+</div>
+<div class="button sort">
+    <%= button_to "Sort by popularity", sort_playlists_path, method: :patch, params: {sort: "popularity", query: @query} %>
+    <%= button_to "Sort by name (A-Z)", sort_playlists_path, method: :patch, params: {sort: "a-z", query: @query} %>
+    <%= button_to "Sort by name (Z-A)", sort_playlists_path, method: :patch, params: {sort: "z-a", query: @query} %>
+</div>
+<br>
+<br>
+<table>
+    <tr>
+        <th>Playlist</th>
+        <th>User</th>
+        <th></th>
+    </tr>
+    <% @playlists.each do |p| %>
+        <tr class="playlist-text">
+            <td><%= link_to p.name, p %></td>
+            <td><%= link_to p.user.username, p.user %></td>
+            <td class="toggle">
+                <% favorite = current_user.favorites.find {|fav| fav.playlist == p} %>
+                <% if favorite %>
+                    <%= button_to "Unfavorite", favorite, method: :delete %>
+                <% else %>
+                    <%= button_to "Favorite", favorites_path, method: :post, params: {playlist_id: p.id} %>
+                <% end %>
+            </td>
+        </tr>
+    <% end %>
+</table>
+<br>
+<div class="button">
+    <%= button_to "Create a Playlist", new_playlist_path, method: :get %>
+</div>

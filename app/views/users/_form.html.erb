@@ -1,0 +1,38 @@
+<div class="signup_page">
+    <ul>
+    <% if @user.errors.any?%>
+        <% @user.errors.full_messages.each do |msg|%>
+            <li class="danger" ><%= msg %></li>
+        <%end%>
+    <%end%>
+    </ul>
+    <div class="signup_form">
+        <%=form_for @user do |f|%>
+        <%=f.label :name%><br/>
+        <%=f.text_field :name%><br/>
+      <br/>
+      <%=f.label :username%><br/>
+        <%=f.text_field :username%><br/>
+        <br/>
+        <%=f.label :password%><br/>
+        <%=f.password_field :password%><br/>
+       <br/>
+        <%=f.label :password_confirmation %><br/>
+        <%=f.password_field :password_confirmation %><br/>
+        <br/>
+        <div id="update_btn">
+        <%=f.submit%>
+        <% end %>
+        <br>
+        <br>
+    <div class="login_edit">
+       <% if logged_in?%>
+       <%=button_to 'Delete this account', current_user, method: :delete, data:{confirm: 'Are you sure you want to permanently delete this account?'}%>
+       <% else %>
+       <%=button_to "Back to Login", login_path, method: :get%>
+       <% end %>
+    </div>
+        </div>
+    </div>
+    <br/>
+</div>

@@ -1,0 +1,22 @@
+<h1><%= @artist.name %></h1>
+<div id="artist-show">
+    <div class="toggle">
+        <% if @subscription %>
+            <%= button_to "Unsubscribe", @subscription, method: :delete, "class" => "subBtn" %>
+        <% else %>   
+            <%= button_to "Subscribe", subscriptions_path, method: :post, params: {artist_id: @artist.id}, "class" => "subBtn" %>
+        <% end %> 
+    </div>
+    <div>
+        <%=pluralize(@artist.subscriptions.length, "subscriber")%>
+    </div>
+
+    <br>
+
+    <img src="<%=@artist.image%>" alt="<%=@artist.name%>" style="width:300px;height:300px;">
+    <div>
+        <% @songs.each do |song| %>
+            <p><%= link_to song.title, song %></p>
+        <% end %>
+    </div>
+</div>

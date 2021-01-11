@@ -1,0 +1,28 @@
+<h1>Songs</h1>
+
+<div class="search">
+    <%= form_tag songs_path, method: :get do %>
+        <%= hidden_field_tag :playlist_id, @playlist_id %>
+        <%= text_field_tag :query, params[:query], placeholder: "Search by Song" %>
+        <%= submit_tag "Search" %>
+    <% end %>
+</div>
+<div class="button sort">
+    <%= button_to "Sort by popularity", sort_songs_path, method: :patch, params: {sort: "popularity", playlist_id: @playlist_id, query: @query} %>
+    <%= button_to "Sort by name (A-Z)", sort_songs_path, method: :patch, params: {sort: "a-z", playlist_id: @playlist_id, query: @query} %>
+    <%= button_to "Sort by name (Z-A)", sort_songs_path, method: :patch, params: {sort: "z-a", playlist_id: @playlist_id, query: @query} %>
+</div>
+<br>
+<br>
+<div class="grid">
+    <% @songs.each do |song| %>
+        <div>
+            <%= form_tag song_path(song), method: :get do  %>
+                <%= hidden_field_tag :playlist_id, @playlist_id %>
+                <%= image_submit_tag song.image %>
+            <% end %>
+            <%= link_to "<p id=\"songTitle\">#{song.title}</p><p class=\"artistName\">#{song.artist.name}</p>".html_safe, song_path(id: song.id, playlist_id: @playlist_id) %>
+            <br>
+        </div>
+    <% end %>
+</div>

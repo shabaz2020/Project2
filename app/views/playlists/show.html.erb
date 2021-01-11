@@ -1,0 +1,52 @@
+
+<div class="playlist_show">
+    <div class="playlist_title">
+    <h1><%= @playlist.name %></h1>
+    <h5>
+        <div class="toggle">
+            <% if @favorite %>
+                <%= button_to "Unfavorite", @favorite, method: :delete, params: {toggle: true}, "class" => "subBtn" %>
+            <% else %>   
+                <%= button_to "Favorite", favorites_path, method: :post, params: {toggle: true, playlist_id: @playlist.id}, "class" => "subBtn" %>
+            <% end %> 
+        </div>
+
+        By <%= link_to @playlist.user.name, @playlist.user %>
+        <br><br>
+        Songs: <%= @songs.count %>
+        <br>
+        Favorites: <%= @playlist.favorites.count %>
+    </h5>
+    </div>
+
+
+    
+    <table class="song_text">
+    <tr>
+        <th> Song </th>
+        <th> Artist </th>
+        <th> Play </th>
+        <th> </th>
+    </tr>
+        <% @songs.each do |song| %> 
+    <tr>
+            <td><%= link_to song.title, song %></td>
+            <td><%= link_to song.artist.name, song.artist %></td>
+            <td><audio controls id="audio" >
+            <source src="<%=song.preview%>" type="audio/ogg">
+            Your browser does not support the audio tag.
+            </audio></td>
+            <td><% if @playlist.user == current_user %>
+                <%= link_to "Delete", PlaylistSong.find_by(song_id: song.id, playlist_id: @playlist.id), method: :delete %>
+                <% end %></td>
+    </tr>
+        <% end %>
+    </table>
+</div>
+<br/>
+    <div class="button">
+    <% if @playlist.user == current_user %>
+        <%= button_to "Add Songs", songs_path, method: :get, params: {playlist_id: @playlist.id} %><br>
+        <%= button_to "Edit Playlist", edit_playlist_path(@playlist), method: :get %>
+    <% end %>
+    </div>

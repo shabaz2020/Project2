@@ -1,0 +1,28 @@
+<h1>Artists</h1>
+
+<div class="search">
+    <%= form_tag artists_path, method: :get do %>
+        <%= text_field_tag :query, params[:query], placeholder: "Search by Artist" %>
+        <%= submit_tag "Search" %>
+    <% end %>
+</div>
+
+<div class="button sort">
+    <%= button_to "Sort by popularity", sort_artists_path, method: :patch, params: {sort: "popularity", query: @query} %>
+    <%= button_to "Sort by name (A-Z)", sort_artists_path, method: :patch, params: {sort: "a-z", query: @query} %>
+    <%= button_to "Sort by name (Z-A)", sort_artists_path, method: :patch, params: {sort: "z-a", query: @query} %>
+</div>
+<br>
+<br>
+<div class="grid">
+    <% @artists.each do |artist| %>
+        <div> 
+            <%= form_tag artist_path(artist), method: :get do  %>
+                <%= image_submit_tag artist.image %>
+            <% end %>
+            <p class="artistName"><%= link_to artist.name, artist %></p>
+            <br>
+        </div>
+    <% end %>
+</div>
+

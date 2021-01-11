@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+        <ul class="nav" id="nav_home_bar">
+        <%if logged_in? %>
+          <li class="nav_select"><%=link_to 'Home', current_user %></li>
+          <li class="nav_select"><%=link_to 'All Artists', artists_path %></li>
+          <li class="nav_select"><%=link_to 'All Songs', songs_path %> </li>
+          <li class="nav_select"><%=link_to "All Playlists", playlists_path %></li>
+          <li class="nav_select"><%=link_to 'Settings', edit_user_path(current_user.id)%></li>
+          <li class="nav_select"><%=link_to "About", about_path %></li>
+          <li class="nav_select"><%=link_to 'Log Out', sessions_path, method: :delete%></li>
+        <% end %>
+        </ul>
+  </div>
+
+      <% flash.each do |k, v|  %>
+        <p class="<%= k %>"><%= v %></p>
+      <% end %>
+
+    <%= yield %>
+    
+  </body>
+</html>
